@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 226, 232, 240;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  color: rgb(var(--foreground-rgb));
+  overflow-x: hidden;
+}
+
+/* Ensure proper stacking context */
+body > div {
+  isolation: isolate;
+}
+
+/* Ensure content is readable over background */
+.bg-slate-800 {
+  backdrop-filter: blur(8px);
+} 
