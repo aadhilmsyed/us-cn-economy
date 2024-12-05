@@ -92,14 +92,14 @@ function Dashboard({ data }: { data: DashboardData }) {
   const kpiMetrics = [
     {
       title: 'US-China Trade Balance',
-      value: `$${Math.abs(data.tradeData[data.tradeData.length-1].Balance).toFixed(0)}B`,
+      value: `$${Math.abs(data.tradeData[data.tradeData.length-1].Balance).toFixed(2)}B`,
       change: '2.3% vs Last Month',
       trend: 'up' as const,
       icon: 'fa-balance-scale'
     },
     {
       title: 'GDP Growth Rate',
-      value: `${(data.chinaGDP[data.chinaGDP.length-1]['Growth Rate (%)']).toFixed(1)}%`,
+      value: `${(data.chinaGDP[data.chinaGDP.length-1]['Growth Rate (%)'])}%`,
       change: 'YoY',
       trend: 'up' as const,
       icon: 'fa-chart-line'
@@ -107,7 +107,7 @@ function Dashboard({ data }: { data: DashboardData }) {
     {
       title: 'R&D Investment Gap',
       value: `${(data.usRD[data.usRD.length-1]['R&D Spending (% of GDP)'] - 
-              data.chinaRD[data.chinaRD.length-1]['R&D Spending (% of GDP)']).toFixed(1)}%`,
+              data.chinaRD[data.chinaRD.length-1]['R&D Spending (% of GDP)']).toFixed(2)}%`,
       change: 'US Lead',
       trend: 'neutral' as const,
       icon: 'fa-flask'
@@ -128,11 +128,11 @@ function Dashboard({ data }: { data: DashboardData }) {
         
         <div className={styles.content}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-blue-600 via-white to-red-600 bg-clip-text text-transparent py-4 drop-shadow-lg">
+          <h1 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-red-600 via-white to-blue-600 bg-clip-text text-transparent py-4 drop-shadow-lg">
               China's Economic Rise: A Threat to U.S. Dominance?
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               {kpiMetrics.map((metric, index) => (
                 <KPICard key={index} {...metric} />
               ))}
