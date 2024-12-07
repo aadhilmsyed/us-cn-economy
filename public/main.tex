@@ -1,0 +1,275 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{cite}
+
+\title{China’s Rise: Economic Opportunity or Threat to the US?}
+\author{
+    Ehsaan Mohammed \and
+    Aadhil Mubarak Syed \and
+    Naya Nethi
+}
+\date{November 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+In recent decades, China’s rapid economic growth has transformed it from a developing nation into a major global power with substantial influence on international markets. This growth trajectory has raised questions about the potential economic threat China may pose to the United States, particularly in areas like trade, technology, and global influence. As the world’s two largest economies, the relationship between the US and China is both interdependent and competitive, with significant implications for both countries.
+
+China’s expanding role as a global supplier of goods has deepened US dependence on Chinese imports across various industries, from electronics and machinery to pharmaceuticals and rare earth elements. This dependence creates vulnerabilities within US supply chains, potentially impacting economic stability, national security, and job markets. Additionally, China’s ambitious investments in technology and innovation—supported by a strong emphasis on research and development—have fueled its competitiveness in sectors traditionally dominated by the US.
+
+This project aims to examine how China’s economic growth influences the US economy and assess potential risks associated with this evolving dynamic. By analyzing recent trade data, investment flows, and growth metrics, we can uncover the scope of economic interdependence and identify sectors where China's influence is most pronounced. In doing so, we seek to answer the question: How much of an economic threat does China’s growth pose to the US, and in which areas is this threat most evident?
+
+\section{Economic Growth Comparison: China vs. the United States}
+
+To evaluate the economic impact of China’s growth relative to the United States, we conducted a comparative analysis of GDP trends for both countries from 2000 to 2023. This analysis provides insights into the contrasting growth trajectories of these two major economies and highlights China’s rapid economic ascent in recent decades, which raises questions about potential shifts in global economic influence.
+
+\subsection{Data Collection and Processing}
+
+We obtained annual GDP data for China and the United States using the World Bank API (wbgapi), specifically accessing the indicator NY.GDP.MKTP.CD, which represents GDP in current USD \cite{worldbank}. The data, retrieved in JSON format, was then parsed and structured into tables for further analysis and visualization. The use of standardized World Bank data ensures consistent, high-quality comparisons across years for both countries.
+
+\subsection{Calculating Growth Rates}
+
+To gain insights into growth patterns, we calculated the year-over-year GDP growth rates for each country. The growth rate was determined as the percentage change from the previous year’s GDP, providing a standardized metric for economic expansion. Figures \ref{fig1} and \ref{fig2} illustrate these GDP values and growth rates, respectively, showing both the scale of economic output and the fluctuations in growth.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figure1.png}
+    \caption{Annual GDP of China and the United States (2000-2023)}
+    \label{fig1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figure2.png}
+    \caption{Year-over-Year GDP Growth Rates of China and the United States (2000-2023)} \label{fig2}
+\end{figure}
+
+\subsection{Insights from the Data}
+
+As shown in Figure \ref{fig1}, the line plot contrasts the economic scales of China and the United States over time. Although the United States maintains a higher absolute GDP, China’s GDP trajectory exhibits a steep incline, indicating a rapidly closing gap, particularly in the past decade. This trend is further emphasized in Figure \ref{fig2}, which illustrates the year-over-year growth rates. Here, China’s high growth rates, although sometimes volatile, consistently surpass those of the United States. These fluctuations in China's growth reflect various factors, including periods of economic reform, global financial influences, and recovery efforts following the COVID-19 pandemic.
+
+\subsection{Cumulative Growth Analysis}
+
+To underscore the scale of China’s economic expansion, we calculated cumulative GDP growth for each country from 2000 to 2023. This analysis, presented in Figure \ref{fig3}, reveals that while the United States experienced steady and modest growth, China’s cumulative growth has been exponential. Since 2000, China’s GDP has increased by over 1,400%, compared to a much smaller relative increase in the United States. This cumulative growth difference highlights China’s evolving position in the global economy and suggests that, if these trends persist, China’s economic output could approach parity with that of the United States in the foreseeable future.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figure3.png}
+    \caption{Cumulative GDP Growth of China and the United States (2000-2023)}
+    \label{fig3}
+\end{figure}
+
+\subsection{Summary of Findings}
+
+These visualizations collectively illustrate the rapid economic expansion of China and its implications for the United States. While the US remains the world’s largest economy in absolute terms, the narrowing gap in economic output, driven by China’s accelerated growth, underscores China’s rising influence and competitiveness on the global stage. This GDP analysis provides a foundational perspective on the broader economic relationship between the two nations and sets the stage for evaluating the potential risks and opportunities presented by China’s continued ascent.
+
+\section{Trade Balance Analysis Between the US and China}
+
+In examining the economic relationship between the United States and China, we focused on the trade balance between the two countries from 2000 to 2023. This analysis highlights long-term trends, seasonal patterns, and the impact of key economic events on trade dynamics.
+
+\subsection{Data Collection and Processing}
+
+To obtain trade balance data, we scraped monthly US-China trade figures from the US Census Bureau’s Foreign Trade Division website \cite{census}. Using Python’s \texttt{requests} library, we sent a GET request to retrieve the HTML content of the webpage, which was then parsed with \texttt{BeautifulSoup} to extract each year’s monthly export, import, and balance data. Our script iterated through each year, filtering out aggregate totals and structuring the monthly records into a DataFrame. Finally, we saved the data in an SQLite database for efficient querying and further analysis.
+
+For interpretability, we converted monthly trade balance values into billions of USD. We also computed a 12-month rolling average to smooth short-term fluctuations and reveal the underlying trend.
+
+\subsection{Long-Term Trends in Trade Balance}
+
+Figure \ref{fig4} presents the monthly trade balance between the US and China over time. The purple line illustrates trade balance fluctuations, while the orange dashed line shows a 12-month rolling average to highlight long-term trends. A steadily increasing trade deficit with China is evident over the past two decades, with key economic events marked to contextualize shifts in the trend:
+
+\begin{itemize}
+    \item \textbf{US-China Trade War (2018)}: Initiated in 2018, the US-China trade war aimed to reduce the US trade deficit with China through tariffs on Chinese imports. While there was an initial reduction in the deficit, the long-term trend continued largely unaffected.
+    \item \textbf{COVID-19 Pandemic Impact (2020)}: The pandemic triggered a spike in the US trade deficit with China, reaching a new high. This increase likely reflects supply chain disruptions and changes in consumer demand, as the US relied heavily on imports for essential goods and personal protective equipment.
+\end{itemize}
+
+These findings suggest that despite policy interventions and global disruptions, the structural trade deficit between the US and China has persisted, underscoring the extent of the US's dependence on Chinese imports.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figure4.png}
+    \caption{US Trade Balance with China Over Time (2000-2023)}
+    \label{fig4}
+\end{figure}
+
+\subsection{Seasonal Patterns in Trade Balance}
+
+To further analyze the trade dynamics, we examined seasonal trends in the trade balance. Figure \ref{fig5} shows the average monthly trade balance across the entire period, revealing consistent seasonal fluctuations:
+
+\begin{itemize}
+    \item \textbf{Higher Deficits in Spring}: The data indicates a recurring trend of increased trade deficits in March and April. This may be due to increased consumer demand after the holiday season and the resumption of economic activities after the Lunar New Year in China.
+    \item \textbf{Reduced Deficits in Late Summer and Fall}: The trade deficit tends to decrease toward the end of summer, hitting a low in September. This trend could reflect shifts in seasonal demand and inventory adjustments among US importers.
+\end{itemize}
+
+These seasonal insights suggest that the US trade balance with China is influenced not only by structural economic factors but also by regular seasonal patterns aligned with consumer and industrial cycles.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figure5.png}
+    \caption{Average Monthly Trade Balance with China (2000-2023)}
+    \label{fig5}
+\end{figure}
+
+\subsection{Summary of Findings}
+
+Our trade balance analysis illustrates the complexity of the US-China economic relationship. The persistent trade deficit highlights the reliance of the US on Chinese imports, which remains resilient even amidst policy interventions like tariffs and global disruptions such as the COVID-19 pandemic. The seasonal trends further emphasize that, in addition to structural dependencies, there are predictable fluctuations in trade balance tied to consumer demand cycles and international production schedules.
+
+This trade balance analysis is instrumental in understanding the broader economic interdependence between the two nations, framing the context for potential vulnerabilities within the US supply chain and economic stability. As we delve deeper into specific sectors and dependency risks, these insights will inform a more targeted assessment of economic exposure and potential areas for policy adjustments.
+
+\section{Technology Sector Analysis}
+
+The technology sector is a critical area of focus in understanding China’s rising economic influence. With advancements in artificial intelligence, 5G, robotics, and quantum computing, China has positioned itself as a global leader in innovation. This section examines trends in China’s technological growth using advanced web scraping techniques, sentiment analysis, and keyword tracking to analyze industry-specific data.
+
+\subsection{Data Collection and Processing}
+
+\subsubsection{Web Scraping and Data Sources}
+
+To gather detailed insights into China's technological advancements, we extracted data from the \textit{China Briefing} website, which publishes articles related to industries, technology, economy, and regulatory changes. Using Python's \texttt{selenium} and \texttt{BeautifulSoup}, we scraped over 1,000 articles spanning multiple sections, ensuring comprehensive coverage of relevant topics.
+
+Key scraping techniques included:
+\begin{itemize}
+    \item Automated navigation of multi-page sections using \texttt{selenium} to handle JavaScript-rendered content.
+    \item Extraction of article metadata such as titles, publication dates, authors, and content using \texttt{BeautifulSoup}.
+    \item Validation of extracted data with consistent error handling to ensure clean and structured output.
+\end{itemize}
+
+Each article’s content was tokenized and normalized using the \texttt{nltk} library. The processed data was stored in structured CSV files for downstream analysis. Figure \ref{fig6} illustrates the data pipeline, including scraping, preprocessing, and analysis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure6.png}
+    \caption{Overview of Data Acquisition Pipeline}
+    \label{fig6}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figure7.png}
+    \caption{Enter Caption}
+\begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{figure8.png}
+        \caption{Enter Caption}
+\begin{figure}
+            \centering
+            \includegraphics[width=0.5\linewidth]{figure9.png}
+            \caption{Enter Caption}
+\begin{figure}
+                \centering
+                \includegraphics[width=0.5\linewidth]{figure10.png}
+                \caption{Enter Caption}
+\begin{figure}
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{figure11.png}
+                    \caption{Enter Caption}
+                    \label{fig:enter-label}
+                \end{figure}
+                                \label{fig:enter-label}
+            \end{figure}
+                        \label{fig:enter-label}
+        \end{figure}
+                \label{fig:enter-label}
+    \end{figure}
+        \label{fig:enter-label}
+\end{figure}
+\subsubsection{APIs and External Datasets}
+
+In addition to web scraping, we leveraged external datasets to contextualize our findings. For example:
+\begin{itemize}
+    \item R\&D spending data for China and the US was retrieved using the World Bank API, accessing the \texttt{GB.XPD.RSDV.GD.ZS} indicator for annual spending as a percentage of GDP.
+\begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{figure6.png}
+        \caption{Enter Caption}
+        \label{fig:enter-label}
+    \end{figure}
+        \item Supplementary trade and technology data were acquired from the US Census Bureau and the World Economic Forum’s public datasets.
+\end{itemize}
+
+This integration of scraped data with authoritative external sources provided a robust foundation for analysis.
+
+\subsubsection{Natural Language Processing (NLP)}
+
+To extract meaningful patterns from textual data, we performed the following preprocessing steps:
+\begin{itemize}
+    \item Tokenization and removal of stopwords, punctuation, and irrelevant terms using \texttt{nltk}.
+    \item Sentiment analysis using the VADER lexicon to assess the tone of articles within the technology sector.
+    \item Keyword identification and frequency analysis to track mentions of terms such as \textit{AI}, \textit{blockchain}, and \textit{5G}.
+\end{itemize}
+
+These techniques enabled us to derive trends and sentiment distributions across thousands of articles, providing insights into the emphasis placed on different technologies over time.
+
+\subsection{Findings}
+
+\subsubsection{Keyword Frequency Analysis}
+
+The keyword analysis revealed a significant focus on emerging technologies in recent years. Figure \ref{fig7} displays the top 20 most frequently mentioned terms in the dataset after preprocessing. Terms such as \textit{AI}, \textit{data}, and \textit{innovation} dominate, reflecting the importance of technological development in China’s economic strategy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure7.png}
+    \caption{Top 20 Most Common Words in Technology-Related Articles (After Cleaning)}
+    \label{fig7}
+\end{figure}
+
+\subsubsection{Sentiment Analysis}
+
+We performed sentiment analysis on articles across different sections to evaluate the tone of discussions. As shown in Figure \ref{fig8}, articles in the \textit{Technology} section exhibited overwhelmingly positive sentiment, highlighting optimism about China’s progress in this area. Conversely, articles in the \textit{Legal \& Regulatory} section displayed more neutral sentiment, reflecting a balanced approach to policy-related developments.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure8.png}
+    \caption{Sentiment Distribution Across Sections}
+    \label{fig8}
+\end{figure}
+
+\subsubsection{Temporal Trends in Technology Mentions}
+
+To track the evolution of technological focus, we analyzed monthly mentions of key terms from 2010 to 2023. Figure \ref{fig9} highlights sharp increases in the frequency of terms like \textit{AI}, \textit{blockchain}, and \textit{5G} beginning in 2018, coinciding with China’s strategic investments in these areas. Peaks in mentions correlate with major policy announcements and international events, underscoring the link between government priorities and technological emphasis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure9.png}
+    \caption{Trends in Technology Term Mentions Over Time}
+    \label{fig9}
+\end{figure}
+
+\subsubsection{R\&D Spending Analysis}
+
+Using World Bank data, we compared China’s R\&D spending to that of the United States from 2000 to 2023. Figure \ref{fig10} shows China’s steady increase in R\&D expenditure as a percentage of GDP, nearing US levels by 2023. Predictions based on linear regression models suggest that China may surpass the US in R\&D spending by 2035 if current trends persist, as illustrated in Figure \ref{fig11}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure10.png}
+    \caption{R\&D Spending as a Percentage of GDP for China and the US (2000-2023)}
+    \label{fig10}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figure11.png}
+    \caption{Predicted R\&D Spending for China and the US (2024-2035)}
+    \label{fig11}
+\end{figure}
+
+\subsection{Summary of Findings}
+
+The technology sector exemplifies China’s strategic prioritization of innovation to enhance global competitiveness. Our analysis revealed:
+\begin{itemize}
+    \item A sharp rise in mentions of emerging technologies such as AI, 5G, and blockchain in recent years, reflecting China’s focus on technological leadership.
+    \item Predominantly positive sentiment in technology-related articles, indicative of confidence in China’s progress.
+    \item A narrowing gap in R\&D spending as a percentage of GDP between China and the United States, with projections suggesting parity by 2035.
+\end{itemize}
+
+These findings highlight the role of technology as both a driver of China’s economic growth and a critical area of competition with the United States.
+
+
+\bibliographystyle{plain} % Choose a citation style (plain, IEEE, etc.)
+\bibliography{references} % Name of the .bib file without the extension
+
+\end{document}

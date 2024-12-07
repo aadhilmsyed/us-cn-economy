@@ -1,213 +1,205 @@
 'use client';
-import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import ComparisonCard from './components/ComparisonCard';
-import TradeBalanceChart from './components/TradeBalanceChart';
-import TechTrendsChart from './components/TechTrendsChart';
-import KPICard from './components/KPICard';
-import Modal from './components/Modal';
-import { processGDPData, processRDData, processTradeData, processTechTrends } from './utils/dataProcessing';
 import styles from './page.module.css';
-import ChartProvider from './components/ChartProvider';
+import { useState, useEffect } from 'react';
+import GDPVisualization from './components/GDPVisualization';
+import RDVisualization from './components/RDVisualization';
 
-const LineChart = dynamic(() => import('./components/LineChart'), { ssr: false });
+export default function Dashboard() {
+  const [usGDPData, setUSGDPData]= useState([]);
+  const [chinaGDPData, setChinaGDPData] = useState([]);
+  const [usRDData, setUSRDData] = useState([]);
+  const [chinaRDData, setChinaRDData] = useState([]);
 
-interface ChartModalState {
-  isOpen: boolean;
-  title: string;
-  content: React.ReactNode | null;
-}
-
-interface DataPoint {
-  Year: number;
-  GDP: number;
-  'Growth Rate (%)': number;
-  'R&D Spending (% of GDP)': number;
-  Balance: number;
-}
-
-interface DashboardData {
-  usGDP: DataPoint[];
-  chinaGDP: DataPoint[];
-  usRD: DataPoint[];
-  chinaRD: DataPoint[];
-  tradeData: {
-    Year: number;
-    Month: string;
-    Exports: number;
-    Imports: number;
-    Balance: number;
-  }[];
-  techData: any[];
-}
-
-// Create a wrapper component to handle data fetching
-export default function DashboardWrapper() {
-  const [data, setData] = useState<DashboardData | null>(null);
-
-  // Fetch data on component mount
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/dashboard-data');
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    const fetchData = async ()=> {
+      const [usGDPResponse, chinaGDPResponse, usRDResponse, chinaRDResponse] = await Promise.all([
+        fetch('/us_gdp_data.csv'),
+        fetch('/china_gdp_data.csv'),
+        fetch('/usa_rd.csv'),
+        fetch('/china_rd.csv')
+      ]);
+
+      const usGDPText = await usGDPResponse.text();
+      const chinaGDPText = await chinaGDPResponse.text();
+      const usRDText = await usRDResponse.text();
+      const chinaRDText = await chinaRDResponse.text();
+
+      setUSGDPData(parseCSV(usGDPText));
+      setChinaGDPData(parseCSV(chinaGDPText));
+      setUSRDData(parseCSV(usRDText));
+      setChinaRDData(parseCSV(chinaRDText));
     };
+
     fetchData();
   }, []);
 
-  if (!data) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-
-  return <Dashboard data={data} />;
-}
-
-function Dashboard({ data }: { data: DashboardData }) {
-  const [modalState, setModalState] = useState<ChartModalState>({
-    isOpen: false,
-    title: '',
-    content: null
-  });
-
-  const handleChartClick = (title: string, chart: React.ReactNode) => {
-    setModalState({
-      isOpen: true,
-      title,
-      content: chart
-    });
-  };
-
-  const closeModal = () => {
-    setModalState({ isOpen: false, title: '', content: null });
-  };
-
-  const kpiMetrics = [
-    {
-      title: 'US-China Trade Balance',
-      value: `$${Math.abs(data.tradeData[data.tradeData.length-1].Balance).toFixed(2)}B`,
-      change: '2.3% vs Last Month',
-      trend: 'up' as const,
-      icon: 'fa-balance-scale'
-    },
-    {
-      title: 'GDP Growth Rate',
-      value: `${(data.chinaGDP[data.chinaGDP.length-1]['Growth Rate (%)'])}%`,
-      change: 'YoY',
-      trend: 'up' as const,
-      icon: 'fa-chart-line'
-    },
-    {
-      title: 'R&D Investment Gap',
-      value: `${(data.usRD[data.usRD.length-1]['R&D Spending (% of GDP)'] - 
-              data.chinaRD[data.chinaRD.length-1]['R&D Spending (% of GDP)']).toFixed(2)}%`,
-      change: 'US Lead',
-      trend: 'neutral' as const,
-      icon: 'fa-flask'
-    }
-  ];
-
   return (
-    <ChartProvider>
-      <main className={styles.main}>
-        <div 
-          className={styles.backgroundImage}
-          style={{
-            backgroundImage: 'url(/flag.jpg)'
-          }}
-        />
-        
-        <div className={styles.overlay} />
-        
-        <div className={styles.content}>
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-red-600 via-white to-blue-600 bg-clip-text text-transparent py-4 drop-shadow-lg">
-              China's Economic Rise: A Threat to U.S. Dominance?
-            </h1>
+    <main className={`${styles.main} pb-0`}>
+      <div 
+        className={styles.backgroundImage}
+        style={{
+          backgroundImage: 'url(/flag.jpg)'
+        }}
+      />
+      
+      <div className={styles.overlay} />
+      
+      <div className={`${styles.content} pb-[120px]`}>
+        <div className="w-full px-4">
+          <h1 
+            className="text-3xl font-extrabold text-center mb-3 max-w-[1600px] mx-auto tracking-tight"
+            style={{
+              background: 'linear-gradient(90deg, #ff0000, #ffffff, #0000ff)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
+            China's Rise: Economic Opportunity or Threat to the US?
+          </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              {kpiMetrics.map((metric, index) => (
-                <KPICard key={index} {...metric} />
-              ))}
+          <p className="text-base text-center text-white/80 mb-12 max-w-[800px] mx-auto">
+            An interactive data visualization exploring the economic and technological relationship between the United States and China through analysis of trade patterns, R&D investments, technological development, and media sentiment.
+          </p>
+
+          {/* Key Metrics Grid */}
+          <div className="max-w-7xl mx-auto mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              {/* First Row */}
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">US GDP Growth</div>
+                <div className="text-2xl font-bold text-white">2.1%</div>
+                <div className="text-xs text-white/60 mt-1">2023</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">China GDP Growth</div>
+                <div className="text-2xl font-bold text-white">5.2%</div>
+                <div className="text-xs text-white/60 mt-1">2023</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">Trade Deficit</div>
+                <div className="text-2xl font-bold text-white">$23.7B</div>
+                <div className="text-xs text-white/60 mt-1">Jan 2024</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">US R&D Spending</div>
+                <div className="text-2xl font-bold text-white">3.5%</div>
+                <div className="text-xs text-white/60 mt-1">of GDP</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">China R&D Spending</div>
+                <div className="text-2xl font-bold text-white">2.4%</div>
+                <div className="text-xs text-white/60 mt-1">of GDP</div>
+              </div>
+              
+              {/* Second Row */}
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">US Exports</div>
+                <div className="text-2xl font-bold text-white">$2.06T</div>
+                <div className="text-xs text-white/60 mt-1">to China</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">US Imports</div>
+                <div className="text-2xl font-bold text-white">$3.37T</div>
+                <div className="text-xs text-white/60 mt-1">from China</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">Total Deficit</div>
+                <div className="text-2xl font-bold text-white">$5.4T+</div>
+                <div className="text-xs text-white/60 mt-1">since 2000</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">US Patents</div>
+                <div className="text-2xl font-bold text-white">340K</div>
+                <div className="text-xs text-white/60 mt-1">2023</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                <div className="text-blue-200 font-medium mb-2">China Patents</div>
+                <div className="text-2xl font-bold text-white">420K</div>
+                <div className="text-xs text-white/60 mt-1">2023</div>
+              </div>
             </div>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div 
-                onClick={() => handleChartClick('GDP Comparison', 
-                  <LineChart
-                    data={processGDPData(data.usGDP, data.chinaGDP)}
-                    title="GDP Comparison"
-                    yAxisLabel="GDP (Trillion USD)"
-                  />
-                )}
-                className="cursor-pointer"
-              >
-                <LineChart
-                  data={processGDPData(data.usGDP, data.chinaGDP)}
-                  title="GDP Comparison"
-                  yAxisLabel="GDP (Trillion USD)"
+          {/* Graphs Grid */}
+          <div className="max-w-7xl mx-auto mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* First Row */}
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px]">
+                <GDPVisualization 
+                  usData={usGDPData}
+                  chinaData={chinaGDPData}
+                  visualizationType="gdp"
+                  title="US/China GDP (Trillions USD)"
                 />
               </div>
-
-              <div 
-                onClick={() => handleChartClick('R&D Investment', 
-                  <LineChart
-                    data={processRDData(data.usRD, data.chinaRD)}
-                    title="R&D Investment"
-                    yAxisLabel="R&D Spending (% of GDP)"
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px] relative">
+                <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm rounded-lg" />
+                <div className="relative h-full">
+                  <GDPVisualization 
+                    usData={usGDPData}
+                    chinaData={chinaGDPData}
+                    visualizationType="combined"
+                    title="Growth Analysis"
                   />
-                )}
-                className="cursor-pointer"
-              >
-                <LineChart
-                  data={processRDData(data.usRD, data.chinaRD)}
-                  title="R&D Investment"
-                  yAxisLabel="R&D Spending (% of GDP)"
+                </div>
+              </div>
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px]">
+                <RDVisualization 
+                  usData={usRDData}
+                  chinaData={chinaRDData}
                 />
               </div>
+            </div>
+          </div>
 
-              <div 
-                onClick={() => handleChartClick('Trade Balance', 
-                  <TradeBalanceChart data={processTradeData(data.tradeData)} />
-                )}
-                className="cursor-pointer"
-              >
-                <TradeBalanceChart data={processTradeData(data.tradeData)} />
+          {/* New Grid for Import/Export Visualizations */}
+          <div className="max-w-7xl mx-auto mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px] md:col-span-2">
+                Graph 4 (Import/Export)
               </div>
-
-              <div 
-                onClick={() => handleChartClick('Technology Trends', 
-                  <TechTrendsChart data={processTechTrends(data.techData)} />
-                )}
-                className="cursor-pointer"
-              >
-                <TechTrendsChart data={processTechTrends(data.techData)} />
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px]">
+                Graph 5 (Trade Deficit)
               </div>
             </div>
+          </div>
 
-            <Modal
-              isOpen={modalState.isOpen}
-              onClose={closeModal}
-              title={modalState.title}
-            >
-              {modalState.content}
-            </Modal>
-
-            <footer className="mt-16 pb-8 text-center text-sm text-slate-400 border-t border-slate-700 pt-8">
-              <p>© {new Date().getFullYear()} Aadhil Mubarak Syed. All rights reserved.</p>
-              <p className="mt-2">Data sourced from public economic databases and government reports.</p>
-              <p className="mt-1 text-xs text-slate-500">Developed as part of STA 141B coursework at UC Davis.</p>
-            </footer>
+          {/* Info Section */}
+          <div className="text-center text-white/80 text-sm max-w-4xl mx-auto px-4">
+            <div className="mb-4">
+              This website was built using Next.js 14, React 18, TypeScript, Chart.js, Tailwind CSS, and Framer Motion
+            </div>
+            <div>
+              Data sourced from World Bank, US Census Bureau, US Patent Office, and World Integrated Trade Solution (WITS)
+            </div>
           </div>
         </div>
-      </main>
-    </ChartProvider>
+      </div>
+      
+      <footer className="absolute bottom-0 left-0 right-0 text-center text-white text-sm py-6 bg-gradient-to-b from-black/70 to-black/90 backdrop-blur-sm z-50">
+        <div className="text-white/80 text-xs">
+          <div className="mb-2">
+            © {new Date().getFullYear()} Aadhil Mubarak Syed. All Rights Reserved.
+          </div>
+          <div className="font-light">
+            This page may not be reproduced or redistributed without permission from the owner.
+          </div>
+        </div>
+      </footer>
+    </main>
   );
-} 
+}
+
+function parseCSV(csv: string) {
+  const lines= csv.split('\n');
+  const headers = lines[0].split(',');
+  
+  return lines.slice(1).map(line => {
+    const values = line.split(',');
+    return headers.reduce((obj: any, header, i) => {
+      obj[header.trim()] = isNaN(Number(values[i])) ? values[i] : Number(values[i]);
+      return obj;
+    }, {});
+  }).filter(row => !isNaN(row.Year));
+}
