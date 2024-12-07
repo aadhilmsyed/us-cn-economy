@@ -3,31 +3,42 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import GDPVisualization from './components/GDPVisualization';
 import RDVisualization from './components/RDVisualization';
+import ImportExportVisualization from './components/ImportExportVisualization';
+import TradeDeficitVisualization from './components/TradeDeficitVisualization';
+import TrendIndicator from './components/TrendIndicator';
 
 export default function Dashboard() {
-  const [usGDPData, setUSGDPData]= useState([]);
-  const [chinaGDPData, setChinaGDPData] = useState([]);
-  const [usRDData, setUSRDData] = useState([]);
-  const [chinaRDData, setChinaRDData] = useState([]);
+  const [usGDPData, setUSGDPData] = useState<any[]>([]);
+  const [chinaGDPData, setChinaGDPData] = useState<any[]>([]);
+  const [usRDData, setUSRDData] = useState<any[]>([]);
+  const [chinaRDData, setChinaRDData] = useState<any[]>([]);
+  const [productsData, setProductsData] = useState<string>('');
+  const [tradeData, setTradeData] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async ()=> {
-      const [usGDPResponse, chinaGDPResponse, usRDResponse, chinaRDResponse] = await Promise.all([
+      const [usGDPResponse, chinaGDPResponse, usRDResponse, chinaRDResponse, productsResponse, tradeResponse] = await Promise.all([
         fetch('/us_gdp_data.csv'),
         fetch('/china_gdp_data.csv'),
         fetch('/usa_rd.csv'),
-        fetch('/china_rd.csv')
+        fetch('/china_rd.csv'),
+        fetch('/products.csv'),
+        fetch('/trade_data.csv')
       ]);
 
       const usGDPText = await usGDPResponse.text();
       const chinaGDPText = await chinaGDPResponse.text();
       const usRDText = await usRDResponse.text();
       const chinaRDText = await chinaRDResponse.text();
+      const productsText = await productsResponse.text();
+      const tradeText = await tradeResponse.text();
 
       setUSGDPData(parseCSV(usGDPText));
       setChinaGDPData(parseCSV(chinaGDPText));
       setUSRDData(parseCSV(usRDText));
       setChinaRDData(parseCSV(chinaRDText));
+      setProductsData(productsText);
+      setTradeData(tradeText);
     };
 
     fetchData();
@@ -66,56 +77,134 @@ export default function Dashboard() {
           <div className="max-w-7xl mx-auto mb-12">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               {/* First Row */}
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US GDP Growth</div>
-                <div className="text-2xl font-bold text-white">2.1%</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">6.3%</div>
+                  {usGDPData.length > 0 && (
+                    <TrendIndicator
+                      currentValue={6.28}
+                      previousValue={9.11}
+                      precision={1}
+                    />
+                  )}
+                </div>
                 <div className="text-xs text-white/60 mt-1">2023</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">China GDP Growth</div>
-                <div className="text-2xl font-bold text-white">5.2%</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">-0.5%</div>
+                  {chinaGDPData.length > 0 && (
+                    <TrendIndicator
+                      currentValue={-0.49}
+                      previousValue={0.34}
+                      precision={1}
+                    />
+                  )}
+                </div>
                 <div className="text-xs text-white/60 mt-1">2023</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Trade Deficit</div>
-                <div className="text-2xl font-bold text-white">$23.7B</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">$23.7B</div>
+                  <TrendIndicator
+                    currentValue={23.72}  // Jan 2024
+                    previousValue={22.01}  // Dec 2023
+                    precision={1}
+                  />
+                </div>
                 <div className="text-xs text-white/60 mt-1">Jan 2024</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US R&D Spending</div>
-                <div className="text-2xl font-bold text-white">3.5%</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">3.5%</div>
+                  {usRDData.length > 0 && (
+                    <TrendIndicator
+                      currentValue={3.46}  // 2020 value
+                      previousValue={3.17}  // 2019 value
+                      precision={2}
+                    />
+                  )}
+                </div>
                 <div className="text-xs text-white/60 mt-1">of GDP</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">China R&D Spending</div>
-                <div className="text-2xl font-bold text-white">2.4%</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">2.4%</div>
+                  {chinaRDData.length > 0 && (
+                    <TrendIndicator
+                      currentValue={2.41}  // 2020 value
+                      previousValue={2.24}  // 2019 value
+                      precision={2}
+                    />
+                  )}
+                </div>
                 <div className="text-xs text-white/60 mt-1">of GDP</div>
               </div>
               
               {/* Second Row */}
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Exports</div>
-                <div className="text-2xl font-bold text-white">$2.06T</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">$2.06T</div>
+                  <TrendIndicator
+                    currentValue={12.07}  // Jan 2024 exports
+                    previousValue={13.04}  // Jan 2023 exports
+                    precision={1}
+                  />
+                </div>
                 <div className="text-xs text-white/60 mt-1">to China</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Imports</div>
-                <div className="text-2xl font-bold text-white">$3.37T</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">$3.37T</div>
+                  <TrendIndicator
+                    currentValue={35.79}  // Jan 2024 imports
+                    previousValue={38.18}  // Jan 2023 imports
+                    precision={1}
+                  />
+                </div>
                 <div className="text-xs text-white/60 mt-1">from China</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Total Deficit</div>
-                <div className="text-2xl font-bold text-white">$5.4T+</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">$5.4T+</div>
+                  <TrendIndicator
+                    currentValue={5.4}  // 2023 total
+                    previousValue={5.1}  // 2022 total
+                    precision={1}
+                  />
+                </div>
                 <div className="text-xs text-white/60 mt-1">since 2000</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Patents</div>
-                <div className="text-2xl font-bold text-white">340K</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">340K</div>
+                  <TrendIndicator
+                    currentValue={340}  // 2023
+                    previousValue={375}  // 2022
+                    precision={1}
+                  />
+                </div>
                 <div className="text-xs text-white/60 mt-1">2023</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+              <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">China Patents</div>
-                <div className="text-2xl font-bold text-white">420K</div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="text-2xl font-bold text-white">420K</div>
+                  <TrendIndicator
+                    currentValue={420}  // 2023
+                    previousValue={395}  // 2022
+                    precision={1}
+                  />
+                </div>
                 <div className="text-xs text-white/60 mt-1">2023</div>
               </div>
             </div>
@@ -157,10 +246,10 @@ export default function Dashboard() {
           <div className="max-w-7xl mx-auto mb-16">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px] md:col-span-2">
-                Graph 4 (Import/Export)
+                <ImportExportVisualization data={productsData} />
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px]">
-                Graph 5 (Trade Deficit)
+                <TradeDeficitVisualization data={tradeData} />
               </div>
             </div>
           </div>

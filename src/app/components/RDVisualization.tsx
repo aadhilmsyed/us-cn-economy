@@ -239,60 +239,74 @@ const RDVisualization: React.FC<RDVisualizationProps> = ({
               </>
             )}
             {showUS && (
-              <Line
-                type="monotone"
-                dataKey="US R&D"
-                stroke="#0066cc"
-                strokeWidth={2}
-                dot={(props) => {
-                  const isPrediction = props.payload.isPrediction;
-                  return (
-                    <circle
-                      cx={props.cx}
-                      cy={props.cy}
-                      r={3}
-                      fill={isPrediction ? 'rgba(0, 102, 204, 0.5)' : '#0066cc'}
-                      strokeWidth={0}
-                    />
-                  );
-                }}
-                activeDot={{ 
-                  r: 6, 
-                  fill: '#0066cc',
-                  stroke: 'rgba(255,255,255,0.2)',
-                  strokeWidth: 2
-                }}
-                connectNulls
-                strokeDasharray={(props) => props.payload.isPrediction ? "4 4" : "0"}
-              />
+              <>
+                <Line
+                  type="monotone"
+                  dataKey={(dataPoint) => dataPoint.isPrediction ? null : dataPoint["US R&D"]}
+                  name="US R&D"
+                  stroke="#0066cc"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ 
+                    r: 6, 
+                    fill: '#0066cc',
+                    stroke: 'rgba(255,255,255,0.2)',
+                    strokeWidth: 2
+                  }}
+                  connectNulls
+                />
+                <Line
+                  type="monotone"
+                  dataKey={(dataPoint) => dataPoint.isPrediction ? dataPoint["US R&D"] : null}
+                  name="US R&D (Predicted)"
+                  stroke="#0066cc"
+                  strokeWidth={2}
+                  strokeDasharray="4 4"
+                  dot={false}
+                  activeDot={{ 
+                    r: 6, 
+                    fill: 'rgba(0, 102, 204, 0.5)',
+                    stroke: 'rgba(255,255,255,0.2)',
+                    strokeWidth: 2
+                  }}
+                  connectNulls
+                />
+              </>
             )}
             {showChina && (
-              <Line
-                type="monotone"
-                dataKey="China R&D"
-                stroke="#cc0000"
-                strokeWidth={2}
-                dot={(props) => {
-                  const isPrediction = props.payload.isPrediction;
-                  return (
-                    <circle
-                      cx={props.cx}
-                      cy={props.cy}
-                      r={3}
-                      fill={isPrediction ? 'rgba(204, 0, 0, 0.5)' : '#cc0000'}
-                      strokeWidth={0}
-                    />
-                  );
-                }}
-                activeDot={{ 
-                  r: 6, 
-                  fill: '#cc0000',
-                  stroke: 'rgba(255,255,255,0.2)',
-                  strokeWidth: 2
-                }}
-                connectNulls
-                strokeDasharray={(props) => props.payload.isPrediction ? "4 4" : "0"}
-              />
+              <>
+                <Line
+                  type="monotone"
+                  dataKey={(dataPoint) => dataPoint.isPrediction ? null : dataPoint["China R&D"]}
+                  name="China R&D"
+                  stroke="#cc0000"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ 
+                    r: 6, 
+                    fill: '#cc0000',
+                    stroke: 'rgba(255,255,255,0.2)',
+                    strokeWidth: 2
+                  }}
+                  connectNulls
+                />
+                <Line
+                  type="monotone"
+                  dataKey={(dataPoint) => dataPoint.isPrediction ? dataPoint["China R&D"] : null}
+                  name="China R&D (Predicted)"
+                  stroke="#cc0000"
+                  strokeWidth={2}
+                  strokeDasharray="4 4"
+                  dot={false}
+                  activeDot={{ 
+                    r: 6, 
+                    fill: 'rgba(204, 0, 0, 0.5)',
+                    stroke: 'rgba(255,255,255,0.2)',
+                    strokeWidth: 2
+                  }}
+                  connectNulls
+                />
+              </>
             )}
           </LineChart>
         </ResponsiveContainer>

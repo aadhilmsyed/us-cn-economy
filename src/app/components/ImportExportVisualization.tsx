@@ -2,50 +2,55 @@
 
 import React, { useState } from 'react';
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Label
 } from 'recharts';
 import { FormControlLabel, Switch } from '@mui/material';
 
 interface DataPoint {
   year: number;
-  usGrowth: number;
-  chinaGrowth: number;
+  exports: number;
+  imports: number;
 }
 
 const processData = (data: string): DataPoint[] => {
   const lines = data.split('\n');
-  const headers = lines[0].split(',');
-  return lines.slice(1)
-    .map(line => {
-      const values = line.split(',');
-      return {
-        year: parseInt(values[0]),
-        usGrowth: parseFloat(values[1]),
-        chinaGrowth: parseFloat(values[2])
-      };
-    })
-    .filter(point => !isNaN(point.year) && !isNaN(point.usGrowth) && !isNaN(point.chinaGrowth));
+  const yearData: { [key: string]: DataPoint } = {};
+
+  lines.forEach(line => {
+    const values = line.split(',');
+    const year = parseInt(values[0]);
+    const productGroup = values[1];
+    
+    if (productGroup === 'All Products' && !isNaN(year) && year >= 1991) {
+      const exports = parseFloat(values[2]) / 1000000; // Convert to billions
+      const imports = parseFloat(values[3]) / 1000000; // Convert to billions
+      yearData[year] = { year, exports, imports };
+    }
+  });
+
+  return Object.values(yearData).sort((a, b) => a.year - b.year);
 };
 
-interface GrowthVisualizationProps {
+interface ImportExportVisualizationProps {
   data: string;
 }
 
-const GrowthVisualization: React.FC<GrowthVisualizationProps> = ({ data }) => {
+const ImportExportVisualization: React.FC<ImportExportVisualizationProps> = ({ data }) => {
   const [showTrendline, setShowTrendline] = useState(false);
   const processedData = processData(data);
 
   return (
     <div className="w-full h-full">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-white/60 text-sm">GDP Growth Rate Comparison</h3>
+        <h3 className="text-white/60 text-sm">US/China Trade (Billions USD)</h3>
         <FormControlLabel
           control={
             <Switch
@@ -66,29 +71,30 @@ const GrowthVisualization: React.FC<GrowthVisualizationProps> = ({ data }) => {
         />
       </div>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart
+        <BarChart
           data={processedData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 5, right: 30, left: 20, bottom: 25 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-          <XAxis
-            dataKey="year"
+          <XAxis 
+            dataKey="year" 
             stroke="rgba(255,255,255,0.3)"
             tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 10 }}
+            angle={-45}
+            textAnchor="end"
+            tickMargin={10}
           />
-          <YAxis 
+          <YAxis
+            stroke="rgba(255,255,255,0.3)"
+            tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 10 }}
+            tickFormatter={(value) => `${value}b`}
             label={{ 
-              value: 'Growth Rate (%)', 
+              value: 'Trade Value (Billions USD)', 
               angle: -90, 
               position: 'outside',
-              offset: 15,
-              dx: -20,
+              offset: 45,
               style: { fill: 'rgba(255,255,255,0.6)', fontSize: 10 }
             }}
-            stroke="rgba(255,255,255,0.3)"
-            tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 10 }}
-            width={45}
-            tickMargin={5}
           />
           <Tooltip
             contentStyle={{
@@ -97,6 +103,7 @@ const GrowthVisualization: React.FC<GrowthVisualizationProps> = ({ data }) => {
             }}
             labelStyle={{ color: 'rgba(255,255,255,0.8)' }}
             itemStyle={{ color: 'rgba(255,255,255,0.8)' }}
+            formatter={(value: number) => [`${value.toFixed(2)}B`, '']}
           />
           <Legend
             wrapperStyle={{
@@ -104,28 +111,12 @@ const GrowthVisualization: React.FC<GrowthVisualizationProps> = ({ data }) => {
               fontSize: 10,
             }}
           />
-          <Line
-            type="monotone"
-            dataKey="usGrowth"
-            name="US Growth"
-            stroke="#3b82f6"
-            strokeWidth={2}
-            dot={false}
-            activeDot={{ r: 6 }}
-          />
-          <Line
-            type="monotone"
-            dataKey="chinaGrowth"
-            name="China Growth"
-            stroke="#ef4444"
-            strokeWidth={2}
-            dot={false}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart>
+          <Bar dataKey="exports" fill="#ef4444" name="Exports" />
+          <Bar dataKey="imports" fill="#3b82f6" name="Imports" />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
 };
 
-export default GrowthVisualization; 
+export default ImportExportVisualization; 
