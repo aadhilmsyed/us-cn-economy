@@ -275,11 +275,11 @@ export default function Dashboard() {
                 About This Dashboard
               </h3>
               <p className="text-white/90 text-xs leading-relaxed">
-                This STA 141B project assesses China's economic rise as a potential threat to the
-                United States. Using advanced web scraping and API technologies, we gathered data on 
-                GDP, R&D spending, and trade patterns. Our analysis visualizes the economic 
-                interdependence between both nations, demonstrating China's technological and 
-                global influence.
+                This interface was developed for our STA 141B Final Project to assess China's 
+                economic rise as a potential threat to the United States. Using advanced web 
+                scraping and API technologies, we gathered data on GDP, R&D spending, and trade 
+                patterns. Our analysis visualizes the economic interdependence between both 
+                nations, as well as China's advancements in technology and research.
               </p>
             </div>
 
