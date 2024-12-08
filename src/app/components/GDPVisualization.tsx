@@ -264,6 +264,9 @@ const GDPVisualization: React.FC<GDPVisualizationProps> = ({
                   stroke: 'rgba(255,255,255,0.2)',
                   strokeWidth: 2
                 }}
+                animationDuration={750}
+                animationBegin={0}
+                animationEasing="ease-in-out"
               />
             )}
             {showChina && (
@@ -282,6 +285,9 @@ const GDPVisualization: React.FC<GDPVisualizationProps> = ({
                   stroke: 'rgba(255,255,255,0.2)',
                   strokeWidth: 2
                 }}
+                animationDuration={750}
+                animationBegin={0}
+                animationEasing="ease-in-out"
               />
             )}
           </LineChart>

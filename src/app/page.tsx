@@ -70,7 +70,7 @@ export default function Dashboard() {
           </h1>
 
           <p className="text-base text-center text-white/80 mb-12 max-w-[800px] mx-auto">
-            An interactive data visualization exploring the economic and technological relationship between the United States and China through analysis of trade patterns, R&D investments, technological development, and media sentiment.
+            An interactive visualization dashboard exploring the economic threat of China to the United States through analysis of trade patterns, R&D investments, technological development, and media sentiment.
           </p>
 
           {/* Key Metrics Grid */}
@@ -328,11 +328,20 @@ export default function Dashboard() {
                 <h3 className="text-blue-200 font-semibold text-sm mb-2">
                   Technologies Used
                 </h3>
-                <p className="text-white/90 text-xs leading-relaxed">
-                  Next.js 14, React 18, TypeScript<br />
-                  Recharts, Tailwind CSS<br />
-                  Material-UI, Framer Motion
-                </p>
+                <div className="text-white/90 text-xs leading-relaxed">
+                  <div className="mb-2">
+                    <span className="text-blue-200">Data Collection:</span> BeautifulSoup4, Pandas, NumPy
+                  </div>
+                  <div className="mb-2">
+                    <span className="text-blue-200">Frontend:</span> Next.js 14, React 18, Tailwind CSS
+                  </div>
+                  <div className="mb-2">
+                    <span className="text-blue-200">Backend:</span> Node.js, TypeScript, Python, FastAPI
+                  </div>
+                  <div>
+                    <span className="text-blue-200">Graphs:</span> Recharts, Material-UI, Framer Motion
+                  </div>
+                </div>
               </div>
             </div>
           </div>
