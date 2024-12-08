@@ -12,6 +12,7 @@ import {
   ReferenceLine
 } from 'recharts';
 import { FormControlLabel, Switch, Slider } from '@mui/material';
+import { linearRegression, polynomialRegression } from '../utils/dataProcessing';
 
 interface DataPoint {
   year: number;
@@ -65,17 +66,36 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
   const referenceLineData = useMemo(() => {
     return {
       tradeWar: [
-        { year: 2018, balance: -44 },
+        { year: 2018, balance: -35 },
         { year: 2018, balance: 0 }
       ],
       covid: [
-        { year: 2020, balance: -44 },
+        { year: 2020, balance: -35 },
         { year: 2020, balance: 0 }
       ]
     };
   }, []);
 
   const isSingleYear = yearRange[0] === yearRange[1];
+
+  // Calculate trendline
+  const trendline = useMemo(() => {
+    if (!showTrendline) return null;
+    const filteredPoints = filteredData.map(d => ({ 
+      x: d.year, 
+      y: d.balance 
+    }));
+    return polynomialRegression(filteredPoints, 4);
+  }, [filteredData, showTrendline]);
+
+  // Add trendline data to chart data
+  const chartData = useMemo(() => {
+    if (!trendline) return filteredData;
+    return filteredData.map(d => ({
+      ...d,
+      trend: trendline(d.year)
+    }));
+  }, [filteredData, trendline]);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length > 0) {
@@ -176,7 +196,7 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
       <div className="flex-1 min-h-0">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={filteredData}
+            data={chartData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
@@ -217,13 +237,13 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
                 stroke="#ffd700"
                 strokeDasharray="3 3"
                 strokeWidth={2}
-                ifOverflow="extendDomain"
                 label={{
                   value: "Trade War",
-                  position: 'insideTop',
+                  position: 'top',
                   fill: '#ffd700',
                   fontSize: 12,
-                  dy: -10
+                  dy: -5,
+                  offset: 10
                 }}
               />
             )}
@@ -233,13 +253,13 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
                 stroke="#00ff00"
                 strokeDasharray="3 3"
                 strokeWidth={2}
-                ifOverflow="extendDomain"
                 label={{
                   value: "COVID-19",
-                  position: 'insideTop',
+                  position: 'top',
                   fill: '#00ff00',
                   fontSize: 12,
-                  dy: -10
+                  dy: -5,
+                  offset: 10
                 }}
               />
             )}
@@ -253,6 +273,17 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
               dot={false}
               activeDot={{ r: 6, fill: '#ef4444', stroke: 'rgba(255,255,255,0.2)', strokeWidth: 2 }}
             />
+            {showTrendline && (
+              <Line
+                type="monotone"
+                dataKey="trend"
+                name="Trend"
+                stroke="#3b82f6"
+                strokeDasharray="5 5"
+                dot={false}
+                strokeWidth={2}
+              />
+            )}
           </LineChart>
         </ResponsiveContainer>
       </div>

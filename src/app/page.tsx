@@ -45,7 +45,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <main className={`${styles.main} pb-0`}>
+    <main className={`${styles.main} flex flex-col min-h-screen`}>
       <div 
         className={styles.backgroundImage}
         style={{
@@ -55,7 +55,7 @@ export default function Dashboard() {
       
       <div className={styles.overlay} />
       
-      <div className={`${styles.content} pb-[120px]`}>
+      <div className={`${styles.content} flex-1`}>
         <div className="w-full px-4">
           <h1 
             className="text-3xl font-extrabold text-center mb-3 max-w-[1600px] mx-auto tracking-tight"
@@ -157,7 +157,7 @@ export default function Dashboard() {
                     precision={1}
                   />
                 </div>
-                <div className="text-xs text-white/60 mt-1">to China</div>
+                <div className="text-xs text-white/60 mt-1">to China (2024)</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Imports</div>
@@ -169,7 +169,7 @@ export default function Dashboard() {
                     precision={1}
                   />
                 </div>
-                <div className="text-xs text-white/60 mt-1">from China</div>
+                <div className="text-xs text-white/60 mt-1">from China (2024)</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Total Deficit</div>
@@ -243,36 +243,108 @@ export default function Dashboard() {
           </div>
 
           {/* New Grid for Import/Export Visualizations */}
-          <div className="max-w-7xl mx-auto mb-16">
+          <div className="max-w-7xl mx-auto mb-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px] md:col-span-2">
-                <ImportExportVisualization data={productsData} />
+                <ImportExportVisualization data={productsData} productsData={productsData} />
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg h-[350px]">
                 <TradeDeficitVisualization data={tradeData} />
               </div>
             </div>
           </div>
-
-          {/* Info Section */}
-          <div className="text-center text-white/80 text-sm max-w-4xl mx-auto px-4">
-            <div className="mb-4">
-              This website was built using Next.js 14, React 18, TypeScript, Chart.js, Tailwind CSS, and Framer Motion
-            </div>
-            <div>
-              Data sourced from World Bank, US Census Bureau, US Patent Office, and World Integrated Trade Solution (WITS)
-            </div>
-          </div>
         </div>
       </div>
-      
-      <footer className="absolute bottom-0 left-0 right-0 text-center text-white text-sm py-6 bg-gradient-to-b from-black/70 to-black/90 backdrop-blur-sm z-50">
-        <div className="text-white/80 text-xs">
-          <div className="mb-2">
-            © {new Date().getFullYear()} Aadhil Mubarak Syed. All Rights Reserved.
+
+      <footer className="relative mt-auto">
+        {/* Dark background overlay for footer */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/98 to-black pointer-events-none" />
+        
+        {/* Additional solid background for better contrast */}
+        <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-sm pointer-events-none" />
+        
+        {/* Border line with better visibility */}
+        <div className="absolute top-0 inset-x-0 h-px bg-white/20" />
+        
+        {/* Footer content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+            {/* Left half - About */}
+            <div className="text-center md:text-left">
+              <h3 className="text-blue-200 font-semibold text-sm mb-2">
+                About This Dashboard
+              </h3>
+              <p className="text-white/90 text-xs leading-relaxed">
+                This STA 141B project assesses China's economic rise as a potential threat to the
+                United States. Using advanced web scraping and API technologies, we gathered data on 
+                GDP, R&D spending, and trade patterns. Our analysis visualizes the economic 
+                interdependence between both nations, demonstrating China's technological and 
+                global influence.
+              </p>
+            </div>
+
+            {/* Right half - Data Sources & Technologies side by side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="text-center md:text-left">
+                <h3 className="text-blue-200 font-semibold text-sm mb-2">
+                  Data Sources
+                </h3>
+                <p className="text-white/90 text-xs leading-relaxed">
+                  <a 
+                    href="https://data.worldbank.org/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-200 transition-colors duration-200"
+                  >
+                    World Bank
+                  </a><br />
+                  <a 
+                    href="https://www.census.gov/foreign-trade/balance/c5700.html" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-200 transition-colors duration-200"
+                  >
+                    US Census Bureau
+                  </a><br />
+                  <a 
+                    href="https://www.uspto.gov/patents/stats" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-200 transition-colors duration-200"
+                  >
+                    US Patent Office
+                  </a><br />
+                  <a 
+                    href="https://wits.worldbank.org/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-200 transition-colors duration-200"
+                  >
+                    World Integrated Trade Solution (WITS)
+                  </a>
+                </p>
+              </div>
+              <div className="text-center md:text-left">
+                <h3 className="text-blue-200 font-semibold text-sm mb-2">
+                  Technologies Used
+                </h3>
+                <p className="text-white/90 text-xs leading-relaxed">
+                  Next.js 14, React 18, TypeScript<br />
+                  Recharts, Tailwind CSS<br />
+                  Material-UI, Framer Motion
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="font-light">
-            This page may not be reproduced or redistributed without permission from the owner.
+
+          {/* Copyright section */}
+          <div className="mt-8 pt-6 border-t border-white/20 text-center">
+            <p className="text-white/90 text-xs">
+              © {new Date().getFullYear()} Aadhil Mubarak Syed. All Rights Reserved.
+            </p>
+            <p className="text-white/70 text-xs mt-1">
+              This page may not be reproduced or redistributed without permission from the owner.
+            </p>
           </div>
         </div>
       </footer>
