@@ -111,7 +111,7 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
     <div className="h-full flex flex-col">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-blue-200 font-medium tracking-tight text-sm">
-          US/China Trade Volume (Billions USD)
+          US/China Trade Volume (Click Bars for Product Composition)
         </h2>
         <div className="flex gap-4">
           <label className="flex items-center gap-2">
@@ -121,7 +121,7 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
               onChange={(e) => setShowExports(e.target.checked)}
               className="accent-red-500 w-4 h-4"
             />
-            <span className="text-xs font-light text-red-500">Show Exports</span>
+            <span className="text-xs font-light text-red-500">Exports</span>
           </label>
           <label className="flex items-center gap-2">
             <input
@@ -130,7 +130,7 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
               onChange={(e) => setShowImports(e.target.checked)}
               className="accent-blue-500 w-4 h-4"
             />
-            <span className="text-xs font-light text-blue-500">Show Imports</span>
+            <span className="text-xs font-light text-blue-500">Imports</span>
           </label>
         </div>
       </div>
@@ -152,6 +152,17 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
               tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 10 }}
               width={45}
               tickMargin={5}
+              label={{ 
+                value: 'Trade Value (Billions of USD)', 
+                angle: -90, 
+                position: 'insideLeft',
+                offset: -5,
+                style: { 
+                  fill: 'rgba(255,255,255,0.6)', 
+                  fontSize: 10,
+                  textAnchor: 'middle'
+                }
+              }}
             />
             <Tooltip 
               formatter={(value: number) => `$${value.toFixed(2)}B`}
