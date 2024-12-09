@@ -74,13 +74,15 @@ const GDPVisualization: React.FC<GDPVisualizationProps> = ({
       return (
         <div className="bg-black/80 backdrop-blur-sm p-3 border border-white/10 rounded-lg shadow-lg">
           <p className="text-blue-200 font-medium text-xs mb-1">{`Year: ${label}`}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={index} className="text-xs text-white/60">
-              {`${entry.name}: ${entry.value?.toFixed(2)} ${
-                visualizationType === 'gdp' ? 'T' : '%'
-              }`}
-            </p>
-          ))}
+          {payload.map((entry: any, index: number) => {
+            const value = entry.value;
+            const formattedValue = `$${value.toFixed(2)}T`;
+            return (
+              <p key={index} className="text-xs text-white/60">
+                {`${entry.name}: ${formattedValue}`}
+              </p>
+            );
+          })}
         </div>
       );
     }
