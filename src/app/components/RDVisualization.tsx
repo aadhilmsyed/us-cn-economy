@@ -253,7 +253,7 @@ const RDVisualization: React.FC<RDVisualizationProps> = ({
                   name="US R&D"
                   stroke="#0066cc"
                   strokeWidth={2}
-                  dot={false}
+                  dot={{ r: 3, fill: '#0066cc', strokeWidth: 0 }}
                   activeDot={{ 
                     r: 6, 
                     fill: '#0066cc',
@@ -269,7 +269,7 @@ const RDVisualization: React.FC<RDVisualizationProps> = ({
                   stroke="#0066cc"
                   strokeWidth={2}
                   strokeDasharray="4 4"
-                  dot={false}
+                  dot={{ r: 3, fill: 'rgba(0, 102, 204, 0.5)', strokeWidth: 0 }}
                   activeDot={{ 
                     r: 6, 
                     fill: 'rgba(0, 102, 204, 0.5)',
@@ -288,7 +288,7 @@ const RDVisualization: React.FC<RDVisualizationProps> = ({
                   name="China R&D"
                   stroke="#cc0000"
                   strokeWidth={2}
-                  dot={false}
+                  dot={{ r: 3, fill: '#cc0000', strokeWidth: 0 }}
                   activeDot={{ 
                     r: 6, 
                     fill: '#cc0000',
@@ -304,7 +304,7 @@ const RDVisualization: React.FC<RDVisualizationProps> = ({
                   stroke="#cc0000"
                   strokeWidth={2}
                   strokeDasharray="4 4"
-                  dot={false}
+                  dot={{ r: 3, fill: 'rgba(204, 0, 0, 0.5)', strokeWidth: 0 }}
                   activeDot={{ 
                     r: 6, 
                     fill: 'rgba(204, 0, 0, 0.5)',
