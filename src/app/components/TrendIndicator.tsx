@@ -5,21 +5,23 @@ interface TrendIndicatorProps {
   currentValue: number;
   previousValue: number;
   precision?: number;
+  tooltipText?: string;
 }
 
 const TrendIndicator: React.FC<TrendIndicatorProps> = ({ 
   currentValue, 
   previousValue,
-  precision = 1
+  precision = 1,
+  tooltipText
 }) => {
   const difference = ((currentValue - previousValue) / previousValue) * 100;
   const isPositive = difference > 0;
   
-  const tooltipText = `${Math.abs(difference).toFixed(1)}% ${isPositive ? 'increase' : 'decrease'} since 2023`;
+  const finalTooltipText = tooltipText || `${Math.abs(difference).toFixed(1)}% ${isPositive ? 'increase' : 'decrease'} since 2023`;
   
   return (
     <Tooltip 
-      title={tooltipText}
+      title={finalTooltipText}
       arrow
       placement="top"
       sx={{

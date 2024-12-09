@@ -113,6 +113,7 @@ export default function Dashboard() {
                     currentValue={23.72}  // Jan 2024
                     previousValue={22.01}  // Dec 2023
                     precision={1}
+                    tooltipText="7.8% increase since previous month"
                   />
                 </div>
                 <div className="text-xs text-white/60 mt-1">Jan 2024</div>
@@ -150,10 +151,10 @@ export default function Dashboard() {
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Exports</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$2.06T</div>
+                  <div className="text-2xl font-bold text-white">$118.21B</div>
                   <TrendIndicator
-                    currentValue={12.07}  // Jan 2024 exports
-                    previousValue={13.04}  // Jan 2023 exports
+                    currentValue={118.21}  // 2024 exports
+                    previousValue={147.78}  // 2023 exports
                     precision={1}
                   />
                 </div>
@@ -162,10 +163,10 @@ export default function Dashboard() {
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Imports</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$3.37T</div>
+                  <div className="text-2xl font-bold text-white">$363.64B</div>
                   <TrendIndicator
-                    currentValue={35.79}  // Jan 2024 imports
-                    previousValue={38.18}  // Jan 2023 imports
+                    currentValue={363.64}  // 2024 imports
+                    previousValue={426.88}  // 2023 imports
                     precision={1}
                   />
                 </div>
@@ -174,10 +175,10 @@ export default function Dashboard() {
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Total Deficit</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$5.4T+</div>
+                  <div className="text-2xl font-bold text-white">$6.71T</div>
                   <TrendIndicator
-                    currentValue={5.4}  // 2023 total
-                    previousValue={5.1}  // 2022 total
+                    currentValue={6.71}  // 2024 total
+                    previousValue={6.47}  // 2023 total
                     precision={1}
                   />
                 </div>
