@@ -228,12 +228,12 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
               type="monotone"
               dataKey="balance"
               name="Trade Balance"
-              stroke="#ef4444"
+              stroke="#cc0000"
               dot={false}
               strokeWidth={2}
               activeDot={{ 
                 r: 6, 
-                fill: '#ef4444',
+                fill: '#cc0000',
                 stroke: 'rgba(255,255,255,0.2)',
                 strokeWidth: 2
               }}
@@ -243,7 +243,7 @@ const TradeDeficitVisualization: React.FC<TradeDeficitVisualizationProps> = ({ d
                 type="monotone"
                 dataKey="trend"
                 name="Trend (12-month MA)"
-                stroke="#3b82f6"
+                stroke="#0066cc"
                 strokeWidth={2}
                 dot={false}
                 strokeDasharray="5 5"

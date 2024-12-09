@@ -189,7 +189,7 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
             {showExports && (
               <Bar 
                 dataKey="exports" 
-                fill="#ef4444" 
+                fill="#cc0000"
                 name="Exports"
                 onClick={(data) => handleBarClick(data, 'exports')}
                 style={{ cursor: 'pointer' }}
@@ -198,7 +198,7 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
             {showImports && (
               <Bar 
                 dataKey="imports" 
-                fill="#3b82f6" 
+                fill="#0066cc"
                 name="Imports"
                 onClick={(data) => handleBarClick(data, 'imports')}
                 style={{ cursor: 'pointer' }}
