@@ -110,15 +110,15 @@ export default function Dashboard() {
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Trade Deficit</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$245.43B</div>
+                  <div className="text-2xl font-bold text-white">$279.11B</div>
                   <TrendIndicator
-                    currentValue={-245.426}  // 2024
-                    previousValue={-279.107}  // 2023
+                    currentValue={-279.107}  // 2023
+                    previousValue={-382.134}  // 2023
                     precision={1}
-                    tooltipText="12.1% decrease since 2023"
+                    tooltipText="27% decrease since previous year"
                   />
                 </div>
-                <div className="text-xs text-white/60 mt-1">2024</div>
+                <div className="text-xs text-white/60 mt-1">2023</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US R&D Spending</div>
@@ -153,26 +153,28 @@ export default function Dashboard() {
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Exports</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$118.21B</div>
+                  <div className="text-2xl font-bold text-white">$147.78B</div>
                   <TrendIndicator
-                    currentValue={118.21}  // 2024 exports
-                    previousValue={147.78}  // 2023 exports
+                    currentValue={147.778}  // 2023 exports
+                    previousValue={154.1255}  // 2022 exports
                     precision={1}
+                    tooltipText="4.1% increase since previous year"
                   />
                 </div>
-                <div className="text-xs text-white/60 mt-1">to China (2024)</div>
+                <div className="text-xs text-white/60 mt-1">to China (2023)</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US Imports</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$363.64B</div>
+                  <div className="text-2xl font-bold text-white">$426.88B</div>
                   <TrendIndicator
-                    currentValue={363.64}  // 2024 imports
-                    previousValue={426.88}  // 2023 imports
+                    currentValue={426.88}  // 2023 imports
+                    previousValue={536.26}  // 2022 imports
                     precision={1}
+                    tooltipText="20.4% decrease since previous year"
                   />
                 </div>
-                <div className="text-xs text-white/60 mt-1">from China (2024)</div>
+                <div className="text-xs text-white/60 mt-1">from China (2023)</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Total Deficit</div>
@@ -182,6 +184,7 @@ export default function Dashboard() {
                     currentValue={6.71}  // 2024 total
                     previousValue={6.47}  // 2023 total
                     precision={1}
+                    tooltipText="3.7% increase since previous year"
                   />
                 </div>
                 <div className="text-xs text-white/60 mt-1">since 2000</div>
