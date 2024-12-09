@@ -216,6 +216,13 @@ const RDVisualization: React.FC<RDVisualizationProps> = ({
                 color: 'rgba(255,255,255,0.6)',
                 fontSize: '12px',
               }}
+              formatter={(value: string) => {
+                // Only show non-predicted entries
+                if (!value.includes('Predicted')) {
+                  return value;
+                }
+                return null;
+              }}
             />
             {/* Prediction start line */}
             {yearRange[1] > PREDICTION_START_YEAR && (
