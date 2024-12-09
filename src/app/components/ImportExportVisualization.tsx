@@ -37,6 +37,28 @@ const COLORS = [
   '#06b6d4', '#f43f5e'
 ];
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length > 0) {
+    return (
+      <div className="bg-black/80 backdrop-blur-sm p-3 border border-white/10 rounded-lg shadow-lg">
+        <p className="text-blue-200 font-medium text-xs mb-1">
+          {`Year: ${label}`}
+        </p>
+        {payload.map((entry: any, index: number) => {
+          const value = entry.value;
+          const formattedValue = `$${value.toFixed(2)}B`;
+          return (
+            <p key={index} className="text-xs text-white/60">
+              {`${entry.name}: ${formattedValue}`}
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+  return null;
+};
+
 const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
   const [showExports, setShowExports] = useState(true);
   const [showImports, setShowImports] = useState(true);
@@ -165,25 +187,12 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
               }}
             />
             <Tooltip 
-              formatter={(value: number) => `$${value.toFixed(2)}B`}
-              contentStyle={{
-                backgroundColor: 'rgba(0, 0, 0, 0.95)',
+              content={<CustomTooltip />}
+              wrapperStyle={{
+                background: 'rgba(0, 0, 0, 0.8)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '6px',
-                color: 'white',
-                fontSize: '12px',
-                padding: '8px 12px',
-                fontWeight: 500,
-                backdropFilter: 'blur(8px)'
-              }}
-              labelStyle={{ 
-                color: 'white', 
-                fontWeight: 600,
-                marginBottom: '4px'
-              }}
-              itemStyle={{
-                color: 'white',
-                padding: '2px 0'
+                borderRadius: '8px',
+                backdropFilter: 'blur(8px)',
               }}
             />
             {showExports && (
@@ -281,25 +290,12 @@ const ImportExportVisualization: React.FC<Props> = ({ data, productsData }) => {
                   }}
                 />
                 <Tooltip 
-                  formatter={(value: number) => `$${value.toFixed(2)}B`}
-                  contentStyle={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                  content={<CustomTooltip />}
+                  wrapperStyle={{
+                    background: 'rgba(0, 0, 0, 0.8)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '6px',
-                    color: 'white',
-                    fontSize: '12px',
-                    padding: '8px 12px',
-                    fontWeight: 500,
-                    backdropFilter: 'blur(8px)'
-                  }}
-                  labelStyle={{ 
-                    color: 'white', 
-                    fontWeight: 600,
-                    marginBottom: '4px'
-                  }}
-                  itemStyle={{
-                    color: 'white',
-                    padding: '2px 0'
+                    borderRadius: '8px',
+                    backdropFilter: 'blur(8px)',
                   }}
                 />
               </PieChart>
