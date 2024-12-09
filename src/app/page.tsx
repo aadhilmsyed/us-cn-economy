@@ -110,15 +110,15 @@ export default function Dashboard() {
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">Trade Deficit</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">$23.7B</div>
+                  <div className="text-2xl font-bold text-white">$245.43B</div>
                   <TrendIndicator
-                    currentValue={23.72}  // Jan 2024
-                    previousValue={22.01}  // Dec 2023
+                    currentValue={-245.426}  // 2024
+                    previousValue={-279.107}  // 2023
                     precision={1}
-                    tooltipText="7.8% increase since previous month"
+                    tooltipText="12.1% decrease since 2023"
                   />
                 </div>
-                <div className="text-xs text-white/60 mt-1">Jan 2024</div>
+                <div className="text-xs text-white/60 mt-1">2024</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
                 <div className="text-blue-200 font-medium mb-2">US R&D Spending</div>
