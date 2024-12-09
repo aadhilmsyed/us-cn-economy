@@ -78,28 +78,30 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               {/* First Row */}
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
-                <div className="text-blue-200 font-medium mb-2">US GDP Growth</div>
+                <div className="text-blue-200 font-medium mb-2">US GDP</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">6.3%</div>
+                  <div className="text-2xl font-bold text-white">$27.36T</div>
                   {usGDPData.length > 0 && (
                     <TrendIndicator
-                      currentValue={6.28}
-                      previousValue={9.11}
+                      currentValue={27.36}  // 2023
+                      previousValue={25.74}  // 2022
                       precision={1}
+                      tooltipText="6.3% increase since previous year"
                     />
                   )}
                 </div>
                 <div className="text-xs text-white/60 mt-1">2023</div>
               </div>
               <div className="bg-slate-900/40 backdrop-blur-sm p-4 rounded-lg text-center">
-                <div className="text-blue-200 font-medium mb-2">China GDP Growth</div>
+                <div className="text-blue-200 font-medium mb-2">China GDP</div>
                 <div className="flex items-center justify-center gap-2">
-                  <div className="text-2xl font-bold text-white">-0.5%</div>
+                  <div className="text-2xl font-bold text-white">$17.79T</div>
                   {chinaGDPData.length > 0 && (
                     <TrendIndicator
-                      currentValue={-0.49}
-                      previousValue={0.34}
+                      currentValue={17.79}  // 2023
+                      previousValue={17.88}  // 2022
                       precision={1}
+                      tooltipText="0.5% decrease since previous year"
                     />
                   )}
                 </div>
