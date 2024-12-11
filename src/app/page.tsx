@@ -70,7 +70,7 @@ export default function Dashboard() {
           </h1>
 
           <p className="text-base text-center text-white/80 mb-12 max-w-[800px] mx-auto">
-            An interactive visualization dashboard exploring the economic threat of China to the United States through analysis of trade patterns, R&D investments, technological development, and media sentiment.
+            {/* An interactive visualization dashboard exploring the economic threat of China to the United States through analysis of trade patterns, R&D investments, technological development, and media sentiment. */}
           </p>
 
           {/* Key Metrics Grid */}
@@ -286,6 +286,10 @@ export default function Dashboard() {
                 scraping and API technologies, we gathered data on GDP, R&D spending, and trade 
                 patterns. Our analysis visualizes the economic interdependence between both 
                 nations, as well as China's advancements in technology and research.
+              </p>
+              <div className="mb-4"></div> {/* Line space added */}
+              <p className="text-white/90 text-xs leading-relaxed">
+                <b>Project by: </b>Aadhil Mubarak Syed, Ehsaan Mohammed, Naya Nethi
               </p>
             </div>
 
