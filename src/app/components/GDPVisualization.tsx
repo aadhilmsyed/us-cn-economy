@@ -61,7 +61,7 @@ const GDPVisualization: React.FC<GDPVisualizationProps> = ({
 
   const getYAxisLabel = () => {
     if (visualizationType === 'gdp') return 'GDP (Trillion USD)';
-    return activeTab === 'growth' ? 'Growth Rate (%)' : 'Cumulative Growth (%)';
+    return activeTab === 'growth' ? 'GDP Growth (%)' : 'Cumulative Growth (%)';
   };
 
   const getCurrentType = () => {
@@ -76,7 +76,16 @@ const GDPVisualization: React.FC<GDPVisualizationProps> = ({
           <p className="text-blue-200 font-medium text-xs mb-1">{`Year: ${label}`}</p>
           {payload.map((entry: any, index: number) => {
             const value = entry.value;
-            const formattedValue = `$${value.toFixed(2)}T`;
+            let formattedValue;
+            
+            // Format based on the data type
+            if (entry.name.includes('GDP')) {
+              formattedValue = `$${value.toFixed(2)}T`;
+            } else {
+              // For growth rates and cumulative growth
+              formattedValue = `${value.toFixed(1)}%`;
+            }
+            
             return (
               <p key={index} className="text-xs text-white/60">
                 {`${entry.name}: ${formattedValue}`}
@@ -223,7 +232,7 @@ const GDPVisualization: React.FC<GDPVisualizationProps> = ({
             />
             <YAxis 
               label={{ 
-                value: 'GDP (Trillions USD)', 
+                value: getYAxisLabel(), 
                 angle: -90, 
                 position: 'outside',
                 offset: 15,
