@@ -25,6 +25,3 @@ An interactive dashboard analyzing China's economic rise and its potential threa
 - Chart.js
 - Tailwind CSS
 - Framer Motion
-
-## Getting Started
-1. Clone the repository: 
